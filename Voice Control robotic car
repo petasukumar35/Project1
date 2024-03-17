@@ -1,0 +1,77 @@
+import java.util.Scanner;
+
+public class VoiceControlledCar {
+    // Simulating Bluetooth communication with console input
+    private static Scanner scanner = new Scanner(System.in);
+    private static String readVoice = "";
+
+    // Simulating pins for motor control
+    private static boolean[] motorPins = new boolean[8];
+
+    // Simulating ultrasonic sensor pins and obstacle detection
+    private static int distanceThreshold = 10;
+    private static boolean obstacleDetected = false;
+
+    public static void main(String[] args) {
+        System.out.println("Meflux Turbo");
+
+        while (true) {
+            updateLCD();
+            checkObstacle();
+            readBluetoothInput();
+
+            // Process voice commands
+            processVoiceCommands();
+
+            // Simulate delay
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void updateLCD() {
+        long seconds = System.currentTimeMillis() / 1000;
+        System.out.println("Seconds since reset: " + seconds);
+    }
+
+    private static void checkObstacle() {
+        // Simulating obstacle detection
+        if (Math.random() < 0.1) { // 10% chance of obstacle
+            obstacleDetected = true;
+            System.out.println("Obstacle detected!");
+        } else {
+            obstacleDetected = false;
+        }
+    }
+
+    private static void readBluetoothInput() {
+        // Simulating Bluetooth input
+        if (scanner.hasNextLine()) {
+            readVoice = scanner.nextLine();
+            System.out.println("Received voice command: " + readVoice);
+        }
+    }
+
+    private static void processVoiceCommands() {
+        if (readVoice.equals("forward")) {
+            // Simulate moving forward
+            motorPins[4] = true;
+            motorPins[5] = true;
+            motorPins[6] = false;
+            motorPins[7] = false;
+        } else if (readVoice.equals("back")) {
+            // Simulate moving backward
+            motorPins[4] = false;
+            motorPins[5] = false;
+            motorPins[6] = true;
+            motorPins[7] = true;
+        }
+        // Add more conditions for other commands...
+
+        // Clear readVoice for next command
+        readVoice = "";
+    }
+}
